@@ -1,0 +1,18 @@
+<div id="loginform">
+  <div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control" placeholder="Enter email" formControlName="email">
+      <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty)" class="alert-danger">
+        Email is required</div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" placeholder="Password" formControlName="password">
+      <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty)" class="alert-danger">
+        Password is required</div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Submit</button>
+  </form>
+</div>

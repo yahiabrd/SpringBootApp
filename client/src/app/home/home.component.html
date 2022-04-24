@@ -1,0 +1,80 @@
+<h1>List of Users</h1>
+
+<div *ngIf="successMsg" class="alert alert-success">{{successMsg}}</div>
+<div *ngIf="errorMsg" class="alert alert-danger">{{errorMsg}}</div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Email</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="users.length == 0" class="alert alert-danger"><td colspan="5">No users yet</td></tr>
+      <tr *ngFor="let user of users;let i = index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{user.firstName | titlecase}}</td>
+        <td>{{user.lastName | titlecase}}</td>
+        <td>{{user.email}}</td>
+        <td>
+          <a (click)="updateUser(user)" style="cursor: pointer;"><img src="/assets/img/modify.png" width="20" height="20"></a>
+          <a (click)="deleteUser(user)" style="cursor: pointer;"><img src="/assets/img/delete.jpg" width="20" height="20"></a>
+          <a [routerLink]="['/profile/', user.email]" style="cursor: pointer;"><img src="/assets/img/profile.png" width="30" height="30"></a>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<div *ngIf="showSection">
+  <form [formGroup]="addUserForm" (ngSubmit)="submitAddUserForm()">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Enter first" formControlName="firstName">
+      <div *ngIf="addUserForm.get('firstName')?.invalid && (addUserForm.get('firstName')?.dirty)" class="alert-danger">
+        First name is required</div>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Enter last" formControlName="lastName">
+      <div *ngIf="addUserForm.get('lastName')?.invalid && (addUserForm.get('lastName')?.dirty)" class="alert-danger">
+        Last name is required</div>
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" placeholder="Enter email" formControlName="email">
+      <div *ngIf="addUserForm.get('email')?.errors && (addUserForm.get('email')?.dirty)" class="alert-danger">
+        <div [hidden]="!addUserForm.get('email')?.errors?.email">Email is not valid</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" placeholder="Password" formControlName="password">
+      <div *ngIf="addUserForm.get('password')?.errors && (addUserForm.get('password')?.dirty)" class="alert-danger">
+        <div [hidden]="!addUserForm.get('password')?.errors?.pattern">Password is not valid</div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="addUserForm.invalid" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<button *ngIf="!showSection && !showUpdateSection" type="button" class="btn btn-primary" (click)="showSection = true">Add an user</button>
+
+<div *ngIf="showUpdateSection">
+  <form [formGroup]="updateForm" (ngSubmit)="submitUpdateForm()">
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="firstName">
+      <div *ngIf="updateForm.get('firstName')?.invalid && (updateForm.get('firstName')?.dirty)" class="alert-danger">
+        First name is required</div>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="lastName">
+      <div *ngIf="updateForm.get('lastName')?.invalid && (updateForm.get('lastName')?.dirty)" class="alert-danger">
+        Last name is required</div>
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" value="{{currentUser.email}}" disabled>
+    </div>
+    <button type="submit" [disabled]="updateForm.invalid" class="btn btn-primary">Update</button>&nbsp;
+    <button (click)="showSection = false; showUpdateSection = false;" class="btn btn-warning">Go back</button>
+  </form>
+</div>

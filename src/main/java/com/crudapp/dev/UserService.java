@@ -16,15 +16,31 @@ public class UserService {
 	}
 	
 	public User getUserByEmail(String email) {
-		return this.getAllUsers().stream().filter(u->u.getEmail().equals(email)).findAny().get();
+		return repo.findByEmail(email);
 	}
 	
-	public User checkUserLogin(String email, String password) throws Exception {
-		User user = this.getUserByEmail(email);
-		try {
-			return user;
-		}catch(Exception e) {
-			throw new Exception(e.getMessage());
+	private boolean isEmailAlreadyTaken(String email) {
+		return getUserByEmail(email) == null;
+	}
+	
+//	private User getUserByEmailVersion2(String email) {
+//		return this.getAllUsers().stream().filter(u->u.getEmail().equals(email)).findAny().get();
+//	}
+	
+	public void addUser(User user) {
+		repo.save(user);
+	}
+	
+	public void updateUser(User updatedUser) {
+		User user = repo.findByEmail(updatedUser.getEmail());
+		if (user != null) {
+			User newUser = new User(user.getUserId(), updatedUser.getFirstName(), updatedUser.getLastName(), user.getEmail(), user.getPassword());
+			repo.saveAndFlush(newUser);
 		}
+	}
+	
+	public void deleteUser(String email) {
+		User user = getUserByEmail(email);
+		repo.deleteById(user.getUserId());;
 	}
 }

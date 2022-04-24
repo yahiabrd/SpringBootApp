@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" routerLink="/">Angular Demo</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <span class="navbar-text" *ngIf="!isLogged(); else logout">
+      <a class="nav-link" routerLink="/login">Login</a>
+    </span>
+    <ng-template #logout>
+      <span class="navbar-text">
+        <a class="nav-link" routerLink="/logout">Logout</a>
+      </span>
+    </ng-template>
+  </div>
+</nav>

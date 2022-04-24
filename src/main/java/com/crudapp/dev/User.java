@@ -8,28 +8,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.lang.NonNull;
+
 @Entity
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
-	@Column(name = "firstname")
-	private String firstName;
-	@Column(name = "lastname")
-	private String lastName;
+	@NonNull
+	private String firstname;
+	@NonNull
+	private String lastname;
+	@NonNull
 	private String email;
+	@NonNull
 	private String password;
 	
 	public User() {
 		
 	}
 
-	public User(Integer userId, String firstName, String lastName, String email, String password) {
+	public User(Integer userId, String firstname, String lastname, String email, String password) {
 		super();
 		this.userId = userId;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
 	}
@@ -43,19 +47,19 @@ public class User {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return firstname;
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstname = firstName;
 	}
 
 	public String getLastName() {
-		return lastName;
+		return lastname;
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastname = lastName;
 	}
 
 	public String getEmail() {
@@ -76,7 +80,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, lastName, password, userId);
+		return Objects.hash(email, firstname, lastname, password, userId);
 	}
 
 	@Override
@@ -88,8 +92,8 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+		return Objects.equals(email, other.email) && Objects.equals(firstname, other.firstname)
+				&& Objects.equals(lastname, other.lastname) && Objects.equals(password, other.password)
 				&& Objects.equals(userId, other.userId);
 	}
 
@@ -97,7 +101,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "User [userId=" + userId + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
 				+ ", password=" + password + "]";
 	}
 }
